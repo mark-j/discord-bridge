@@ -24,16 +24,16 @@ class GatewayClient:
     
     def __init__(self, config: DiscordConfig):
         self.config = config
-        self.websocket: Optional[websockets.WebSocketServerProtocol] = None
+        self.websocket: Optional[Any] = None
         self.session_id: Optional[str] = None
         self.resume_gateway_url: Optional[str] = None
         self.last_sequence: Optional[int] = None
         self.heartbeat_interval: Optional[float] = None
         self.heartbeat_task: Optional[asyncio.Task] = None
         self.running = False
-        self.event_handler: Optional[Callable[[str, Dict[str, Any]], None]] = None
+        self.event_handler: Optional[Callable[[str, Dict[str, Any]], Any]] = None
         
-    def on_event(self, handler: Callable[[str, Dict[str, Any]], None]):
+    def on_event(self, handler: Callable[[str, Dict[str, Any]], Any]):
         """Register an event handler function."""
         self.event_handler = handler
         
@@ -235,4 +235,4 @@ class GatewayClient:
             raise Exception("WebSocket not connected")
             
         data = await self.websocket.recv()
-        return json.loads(data) 
+        return json.loads(data)  # type: ignore 

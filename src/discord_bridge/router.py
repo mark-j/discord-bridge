@@ -3,7 +3,7 @@
 import asyncio
 import logging
 from datetime import datetime, timezone
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 import aiohttp
 from aiohttp import ClientTimeout, ClientError
@@ -18,7 +18,7 @@ class HTTPForwarder:
     
     def __init__(self, config: BridgeConfig):
         self.config = config
-        self.session: aiohttp.ClientSession = None
+        self.session: Optional[aiohttp.ClientSession] = None
         
     async def start(self):
         """Start the HTTP session."""
