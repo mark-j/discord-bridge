@@ -1,7 +1,7 @@
 # Multi-stage Dockerfile for Discord Bridge
 
 # Build stage
-FROM python:3.11-slim as builder
+FROM python:3.11-slim AS builder
 
 # Install uv for fast dependency management
 RUN pip install uv
@@ -10,7 +10,7 @@ RUN pip install uv
 WORKDIR /app
 
 # Copy project files
-COPY pyproject.toml ./
+COPY pyproject.toml README.md ./
 COPY src/ ./src/
 
 # Install dependencies and build the project
@@ -19,7 +19,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN uv pip install -e .
 
 # Runtime stage
-FROM python:3.11-slim as runtime
+FROM python:3.11-slim AS runtime
 
 # Install ca-certificates for HTTPS requests
 RUN apt-get update && apt-get install -y \
