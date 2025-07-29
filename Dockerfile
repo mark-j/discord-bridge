@@ -16,7 +16,7 @@ COPY src/ ./src/
 # Install dependencies and build the project
 RUN uv venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-RUN uv pip install -e .
+RUN uv pip install .
 
 # Runtime stage
 FROM python:3.11-slim AS runtime
