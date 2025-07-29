@@ -30,24 +30,19 @@ jobs:
       
     - name: Install dependencies
       run: |
-        uv venv
-        source .venv/bin/activate
-        uv pip install -e .[dev]
+        uv sync
       
     - name: Run linting
       run: |
-        source .venv/bin/activate
-        ruff check src/
+        uv run ruff check src/
         
     - name: Run type checking  
       run: |
-        source .venv/bin/activate
-        mypy src/discord_bridge/
+        uv run mypy src/discord_bridge/
         
     - name: Run tests
       run: |
-        source .venv/bin/activate
-        pytest tests/ -v
+        uv run pytest tests/ -v
 
   build:
     name: Build and Push Docker Image
