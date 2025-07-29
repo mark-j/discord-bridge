@@ -1,0 +1,73 @@
+# Discord Bridge Configuration Example
+# Copy this file to config.yaml and customize for your needs
+
+discord:
+  # Discord bot token (required)
+  # Get this from https://discord.com/developers/applications
+  token: "Bot YOUR_BOT_TOKEN_HERE"
+  
+  # Gateway intents (bitmask)
+  # Default: 513 (GUILDS + GUILD_MESSAGES)
+  # See: https://discord.com/developers/docs/topics/gateway#list-of-intents
+  intents: 513
+
+http:
+  # HTTP request timeout in seconds
+  timeout: 30
+  
+  # Number of retry attempts for failed requests
+  retry_attempts: 3
+  
+  # Delay between retry attempts in seconds
+  retry_delay: 2
+
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR
+  level: "INFO"
+  
+  # Log format: json or console
+  format: "console"
+
+# Event routing configuration
+routes:
+  # Route MESSAGE_CREATE events to webhook endpoints
+  - event_name: "MESSAGE_CREATE"
+    enabled: true
+    endpoints:
+      - "https://your-webhook.example.com/discord/messages"
+      - "https://backup-webhook.example.com/discord"
+  
+  # Route GUILD_MEMBER_ADD events
+  - event_name: "GUILD_MEMBER_ADD"
+    enabled: true
+    endpoints:
+      - "https://your-api.example.com/webhooks/member-join"
+  
+  # Route MESSAGE_DELETE events (disabled by default)  
+  - event_name: "MESSAGE_DELETE"
+    enabled: false
+    endpoints:
+      - "https://your-webhook.example.com/discord/deleted"
+  
+  # Route GUILD_CREATE events (when bot joins a guild)
+  - event_name: "GUILD_CREATE"
+    enabled: true
+    endpoints:
+      - "https://your-api.example.com/webhooks/guild-join"
+
+# Common Discord events you might want to route:
+# - MESSAGE_CREATE: New message posted
+# - MESSAGE_UPDATE: Message edited  
+# - MESSAGE_DELETE: Message deleted
+# - GUILD_MEMBER_ADD: User joins guild
+# - GUILD_MEMBER_REMOVE: User leaves guild
+# - GUILD_CREATE: Bot joins a guild
+# - CHANNEL_CREATE: New channel created
+# - CHANNEL_DELETE: Channel deleted
+# - GUILD_BAN_ADD: User banned
+# - GUILD_BAN_REMOVE: User unbanned
+# - VOICE_STATE_UPDATE: Voice channel activity
+# - PRESENCE_UPDATE: User status changes (requires GUILD_PRESENCES intent)
+
+# For a full list of events, see:
+# https://discord.com/developers/docs/topics/gateway-events 
