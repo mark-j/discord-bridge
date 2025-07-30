@@ -212,11 +212,15 @@ class GatewayClient:
             if resumable:
                 logger.warning("Invalid session, attempting to resume")
                 await asyncio.sleep(5)
+                # Try to resume by reconnecting
+                raise ConnectionClosed(None, None)
             else:
                 logger.warning("Invalid session, will re-identify")
                 self.session_id = None
                 self.last_sequence = None
                 await asyncio.sleep(5)
+                # Force reconnection to trigger fresh identification
+                raise ConnectionClosed(None, None)
                 
         elif opcode == 11:  # HEARTBEAT ACK
             logger.debug("Received heartbeat acknowledgment")
